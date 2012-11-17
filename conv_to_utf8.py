@@ -11,6 +11,10 @@ def getFileListToConvert( dir ):
     for root, dirs, files in os.walk(dir):
         filelist[root] = []
         for f in files:
+            if not ( f.endswith('.shtml') or f.endswith('.html') or f.endswith('.html')\
+                    or f.endswith('.js') or f.endswith('.css') ):
+                continue
+
             fullpath = os.path.join(root,f)
             filelist[root].append(fullpath)
     return filelist;
@@ -24,6 +28,7 @@ def convToUtf8To(srcDir,desDir):
             if not os.path.exists(r.replace(srcDir,desDir)):
                 os.mkdir(r.replace(srcDir,desDir))
             shutil.copyfile(f, maniFile)
+            print('to open '+maniFile)
             oldFile = codecs.open(maniFile,'r')
             content = oldFile.read()
             oldFile.close()
