@@ -1,3 +1,7 @@
+#custom
+data_for_test
+
+#python
 *.py[co]
 
 # Packages

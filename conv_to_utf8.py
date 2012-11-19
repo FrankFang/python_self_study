@@ -6,61 +6,37 @@ import sys
 import chardet
 import codecs
 
-def getFileListToConvert( dir ):
-    filelist = {}
-    for root, dirs, files in os.walk(dir):
-        filelist[root] = []
-        for f in files:
-            if not ( f.endswith('.shtml') or f.endswith('.html') or f.endswith('.html')\
-                    or f.endswith('.js') or f.endswith('.css') ):
-                continue
+def convertToUtf8(srcDir,desDir):
+  suffixiList = ('.shtml','.html','.css','.js')
+  dirDict = os.walk(srcDir)
+  for root,dirs,files in dirDict:
+    for aFilePath in files if aFilePath.endswith(): 
+      oldPath =  os.path.join(root,aFilePath)
+      newPath = oldPath.replace(srcDir,desDir)
+      tempPath = newPath+'.temp'
+      newDir = root.replace(srcDir,desDir)
+      if not os.path.exists(newDir):
+        os.mkdir(newDir)
 
-            fullpath = os.path.join(root,f)
-            filelist[root].append(fullpath)
-    return filelist;
-
-def convToUtf8To(srcDir,desDir):
-    filelist = getFileListToConvert(srcDir) 
-    for r in filelist:
-        for f in filelist[r]:
-            newFile = desDir + f.replace(srcDir,'/') 
-            maniFile = newFile + '.temp'
-            if not os.path.exists(r.replace(srcDir,desDir)):
-                os.mkdir(r.replace(srcDir,desDir))
-            shutil.copyfile(f, maniFile)
-            print('to open '+maniFile)
-            oldFile = codecs.open(maniFile,'r')
-            content = oldFile.read()
-            oldFile.close()
-            os.remove(maniFile)
-            oldEncoding = chardet.detect(content)['encoding']
-            content = content.decode(oldEncoding)
-            codecs.open(newFile,'w',encoding='utf8').write(content)
-            print 'converted to: ' , newFile
+      shutil.copyfile(oldPath,tempPath)
+      tempFile = codecs.open(tempPath)
+      content = tempFile.read()
+      tempFile.close()
+      os.remove(tempPath)
+      oldEncoding = chardet.detect(content)['encoding']
+      content = content.decode(oldEncoding)
+      codecs.open(newPath,'w',encoding='utf8').write(content)
+      print('  converted successfully from '+oldEncoding+': '+newPath)
 
 def main():
-    srcDir = sys.argv[1]
-    desDir = sys.argv[2]
-    if not os.path.exists(desDir):
-        os.mkdir(desDir)
+  srcDir = sys.argv[1]
+  desDir = sys.argv[2]
+  if not os.path.exists(desDir):
+    os.mkdir(desDir)
 
-    convToUtf8To(srcDir,desDir)
-    print('Done')
-
-def process_bak_files(action='restore'):
-    for root, dirs, files in os.walk(os.getcwd()):
-        for f in files:
-            if f.lower().endswith('.java.bak'):
-                source = os.path.join(root, f)
-                target = os.path.join(root, re.sub('\.java\.bak$', '.java', f, flags=re.IGNORECASE))
-                try:
-                    if action == 'restore':
-                        shutil.move(source, target)
-                    elif action == 'clear':
-                        os.remove(source)
-                except Exception, e:
-                    print source
+  convertToUtf8(srcDir,desDir)
+  print('Done :)')
 
 if __name__ == '__main__':
-    # process_bak_files(action='clear')
-    main( )
+  main()
+
