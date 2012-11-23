@@ -1,5 +1,6 @@
 #custom
 data_for_test
+.idea
 
 #python
 *.py[co]
