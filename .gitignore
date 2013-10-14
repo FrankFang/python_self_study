@@ -34,3 +34,4 @@ pip-log.txt
 #Mac
 .DS_Store
 *.sublime-*
+.ropeproject/

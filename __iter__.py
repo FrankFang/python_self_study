@@ -1,4 +1,5 @@
 __metaclass__ = type
+import sys
 class Fibs:
 	def __init__(self):
 		self.a = 0
@@ -11,9 +12,10 @@ class Fibs:
 
 fibs = Fibs()
 fibs = iter(fibs)
-print(fibs.next())
+# print(fibs.next())
+print('....')
 for f in fibs:
-	if f > 1000:
-		print f
+    print (f)
+    if f > 100:
 		break
-print(list(fibs))
+sys.exit()
