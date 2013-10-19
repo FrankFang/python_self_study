@@ -10,9 +10,9 @@ print("If you do want that, hit RETURN.")
 raw_input('?')
 
 print("Opening the file")
-target = open(filename,'w')
+# target = open(filename)
+target = open(filename,'a')
 print("Thuncating the file. Bye.")
-target.truncate()
 
 print("Now I'm going to ask you for three lines.")
 
@@ -22,9 +22,7 @@ line3  = raw_input("line 3:")
 
 print("I'm going to write there to the file.")
 
-target.write(line1)
-target.write(line2)
-target.write(line3)
+target.write('%s \n %s \n %s \n' % (line1, line2, line3))
 
 print("Finally, close it.")
 target.close()
