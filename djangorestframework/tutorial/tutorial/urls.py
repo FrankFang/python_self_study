@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+from snippets import views
 
 urlpatterns = patterns('',
     # Examples:
@@ -15,4 +16,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('snippets.urls')),
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
 )
